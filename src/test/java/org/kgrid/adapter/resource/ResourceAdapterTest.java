@@ -86,7 +86,7 @@ public class ResourceAdapterTest {
     }
 
     @Test
-    public void unactivatedObjectThrowsException() throws {
+    public void unactivatedObjectThrowsException() {
         adapter.initialize(context);
         HttpServletRequest request = new MockHttpServletRequest("GET", "/naan/name/version/endpoint/hello2.txt");
         assertThrows(AdapterException.class, () -> adapter.getResource(request));
