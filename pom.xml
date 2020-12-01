@@ -10,6 +10,14 @@
     <name>resource-adapter</name>
     <description>Resource adapter for getting static payloads in the knowledge grid</description>
 
+
+    <scm>
+        <url>https://github.com/kgrid/resource-adapter</url>
+        <connection>scm:git:https://github.com/kgrid/resource-adapter.git</connection>
+        <developerConnection>scm:git:https://github.com/kgrid/resource-adapter.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <properties>
         <java.version>11</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -46,6 +54,7 @@
 
     </dependencies>
 
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -62,7 +71,16 @@
         </developer>
     </developers>
 
-
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <!-- Environment Settings -->
     <profiles>
