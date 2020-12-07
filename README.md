@@ -61,12 +61,12 @@ The KO directory structure would look as such:
 
 ```
 - hello-neighbor-1.0
-  metadata.json
-  service.yaml
-  deployment.yaml
-  - src
-    - hello.txt
-    - goodbye.txt
+    metadata.json
+    service.yaml
+    deployment.yaml
+    - src
+      - hello.txt
+      - goodbye.txt
 ```
 
 ## Examples
