@@ -69,10 +69,10 @@ The KO directory structure would look as such:
     - goodbye.txt
 ```
 
-##Examples
+## Examples
 An example KO can be found in our [example collection](https://github.com/kgrid-objects/example-collection/releases/latest) here:
 [resource/simple/1.0](https://github.com/kgrid-objects/example-collection/releases/download/4.1.0/resource-simple-v1.0.zip)
 
-##Importnat Notes
+## Importnat Notes
 - If the artifact is not specified under the `artifact` node in the deployment spec, it will not be available to `GET`.
 - If the artifact is specified in the deployment spec, but not actually in the KO, the endpoint will return 404.
