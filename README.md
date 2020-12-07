@@ -19,7 +19,7 @@ There are currently no configurable settings for this adapter.
 ## Start the runtime
 As an embedded adapter, this will automatically be enabled when the activator starts.
 
-##Guidance for Knowledge Object Developers
+## Guidance for Knowledge Object Developers
 This adapter uses the following endpoints in the activator:
 
 `
