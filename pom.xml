@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.kgrid</groupId>
             <artifactId>adapter-api</artifactId>
-            <version>0.10.15</version>
+            <version>0.10.16-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
