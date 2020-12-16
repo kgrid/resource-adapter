@@ -70,6 +70,8 @@
         </developer>
     </developers>
 
+    <url>https://github.com/kgrid</url>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
