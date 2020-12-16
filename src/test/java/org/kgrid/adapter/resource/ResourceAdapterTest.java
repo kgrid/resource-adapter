@@ -13,10 +13,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -86,13 +92,13 @@ public class ResourceAdapterTest {
   @Test
   public void getResource_returnActivatedArtifact() throws JsonProcessingException {
     adapter.initialize(context);
+    InputStream stream = (new ByteArrayInputStream(ARTIFACT_CONTENTS.getBytes()));
     when(context.getBinary(URI.create(locationUri + "/" + ARTIFACT_NAME1)))
-        .thenReturn(ARTIFACT_CONTENTS.getBytes());
+        .thenReturn(stream);
     Executor ex = activateDeploymentSpec(singleArtifactDeploymentSpec);
-
-    assertEquals(
-        ARTIFACT_CONTENTS,
-        new String((byte[]) ex.execute("hello.txt", null), StandardCharsets.UTF_8));
+    String fileContents = new BufferedReader(new InputStreamReader((InputStream) ex.execute("hello.txt", null),
+            Charset.defaultCharset())).lines().collect(Collectors.joining("\n"));
+    assertEquals(ARTIFACT_CONTENTS, fileContents);
   }
 
   @Test
