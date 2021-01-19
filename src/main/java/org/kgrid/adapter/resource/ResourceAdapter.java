@@ -3,7 +3,6 @@ package org.kgrid.adapter.resource;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Adapter;
-import org.kgrid.adapter.api.AdapterException;
 import org.kgrid.adapter.api.Executor;
 
 import java.net.URI;
@@ -47,7 +46,7 @@ public class ResourceAdapter implements Adapter {
                     return context.getBinary(
                             URI.create(absoluteLocation + "/" + inputs));
                 } else {
-                    throw new AdapterException("Requested resource " + inputs + " is not available.");
+                    throw new AdapterResourceNotFoundException("Requested resource " + inputs + " is not available.");
                 }
             }
         };
