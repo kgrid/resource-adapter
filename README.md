@@ -44,9 +44,9 @@ An example KO with naan of `hello`, a name of `neighbor`, api version of `1.0`, 
 /welcome:
   get:
     artifact:
-      - "src/hello.txt"
-      - "src/goodbye.txt"
-    engine: "resource"
+      - src/hello.txt
+      - src/goodbye.txt
+    engine: resource
 ```
 
 Notice that if the artifacts you want to expose are contained in a folder,
