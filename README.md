@@ -112,7 +112,7 @@ paths:
 ```
 
 In the Service Specification the servers.url must match the naan and name of the object (`/js/neighbor`) and the path must match the path in Deployment Specification (`/welcome`).
-The service spec conforms to the swagger [OpenAPI spec.](https://swagger.io/specification/)
+The service spec conforms to the swagger [OpenAPI spec.](https://spec.openapis.org/oas/v3.1.0)
 
 
 ## Important Notes
