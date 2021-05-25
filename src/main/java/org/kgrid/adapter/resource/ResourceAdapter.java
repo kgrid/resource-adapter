@@ -22,13 +22,13 @@ public class ResourceAdapter implements Adapter {
     @Override
     public void initialize(ActivationContext activationContext) {
         context = activationContext;
+        context.refresh(getEngines().get(0));
     }
 
     @Override
     public Executor activate(URI absoluteLocation, URI endpointUri, JsonNode deploymentSpec) {
         final List<String> artifacts = new ArrayList<>();
         JsonNode artifactNode = deploymentSpec.at("/artifact");
-        ArrayList<String> artifactLocations = new ArrayList<>();
         if (artifactNode.isArray()) {
             artifactNode.forEach(file -> {
                 artifacts.add(file.asText());
