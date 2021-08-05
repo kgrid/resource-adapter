@@ -3,10 +3,12 @@ package org.kgrid.adapter.resource;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.Adapter;
+import org.kgrid.adapter.api.ClientRequest;
 import org.kgrid.adapter.api.Executor;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,6 +49,28 @@ public class ResourceAdapter implements Adapter {
                             URI.create(absoluteLocation + "/" + inputs));
                 } else {
                     throw new AdapterResourceNotFoundException("Requested resource " + inputs + " is not available.");
+                }
+            }
+
+            @Override
+            public Object execute(ClientRequest request) {
+                String[] endpointPathParts = request.getUrl().getPath().split("/");
+                String[] endpointUriParts = endpointUri.getPath().split("/");
+
+                if (endpointPathParts.length <= endpointUriParts.length) {
+                    return artifacts;
+                } else {
+                    StringBuilder artifactName = new StringBuilder();
+                    for(int i = endpointUriParts.length; i < endpointPathParts.length; i++){
+                        artifactName.append("/").append(endpointPathParts[i]);
+                    }
+                    if (artifacts.contains(artifactName.substring(1))) {
+                        return context.getBinary(
+                                URI.create(absoluteLocation + artifactName.toString()));
+
+                    } else {
+                        throw new AdapterResourceNotFoundException("Requested resource " + artifactName + " is not available.");
+                    }
                 }
             }
         };
