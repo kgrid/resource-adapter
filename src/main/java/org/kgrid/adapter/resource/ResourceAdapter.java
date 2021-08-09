@@ -1,14 +1,10 @@
 package org.kgrid.adapter.resource;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.kgrid.adapter.api.ActivationContext;
-import org.kgrid.adapter.api.Adapter;
-import org.kgrid.adapter.api.ClientRequest;
-import org.kgrid.adapter.api.Executor;
+import org.kgrid.adapter.api.*;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,36 +36,23 @@ public class ResourceAdapter implements Adapter {
         }
         return new Executor() {
             @Override
-            public Object execute(Object inputs, String inputMimetype) {
-                if(inputs == null){
-                    return artifacts;
-                }
-                if(artifacts.contains(inputs)) {
-                    return context.getBinary(
-                            URI.create(absoluteLocation + "/" + inputs));
-                } else {
-                    throw new AdapterResourceNotFoundException("Requested resource " + inputs + " is not available.");
-                }
-            }
-
-            @Override
-            public Object execute(ClientRequest request) {
+            public ExecutorResponse execute(ClientRequest request) {
                 String[] endpointPathParts = request.getUrl().getPath().split("/");
                 String[] endpointUriParts = endpointUri.getPath().split("/");
 
                 if (endpointPathParts.length <= endpointUriParts.length) {
-                    return artifacts;
+                    return new ExecutorResponse(artifacts, null);
                 } else {
                     StringBuilder artifactName = new StringBuilder();
-                    for(int i = endpointUriParts.length; i < endpointPathParts.length; i++){
+                    for (int i = endpointUriParts.length; i < endpointPathParts.length; i++) {
                         artifactName.append("/").append(endpointPathParts[i]);
                     }
                     if (artifacts.contains(artifactName.substring(1))) {
-                        return context.getBinary(
-                                URI.create(absoluteLocation + artifactName.toString()));
+                        return new ExecutorResponse(context.getBinary(
+                                URI.create(absoluteLocation + artifactName.toString())), null);
 
                     } else {
-                        throw new AdapterResourceNotFoundException("Requested resource " + artifactName + " is not available.");
+                        throw new AdapterResourceNotFoundException("Requested resource " + artifactName.substring(1) + " is not available.");
                     }
                 }
             }
