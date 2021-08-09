@@ -41,7 +41,7 @@ public class ResourceAdapter implements Adapter {
                 String[] endpointUriParts = endpointUri.getPath().split("/");
 
                 if (endpointPathParts.length <= endpointUriParts.length) {
-                    return new ExecutorResponse(artifacts, null);
+                    return new ExecutorResponse(artifacts, null, request);
                 } else {
                     StringBuilder artifactName = new StringBuilder();
                     for (int i = endpointUriParts.length; i < endpointPathParts.length; i++) {
@@ -49,7 +49,7 @@ public class ResourceAdapter implements Adapter {
                     }
                     if (artifacts.contains(artifactName.substring(1))) {
                         return new ExecutorResponse(context.getBinary(
-                                URI.create(absoluteLocation + artifactName.toString())), null);
+                                URI.create(absoluteLocation + artifactName.toString())), null, request);
 
                     } else {
                         throw new AdapterResourceNotFoundException("Requested resource " + artifactName.substring(1) + " is not available.");

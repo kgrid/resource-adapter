@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kgrid.adapter.api.ActivationContext;
 import org.kgrid.adapter.api.AdapterException;
-import org.kgrid.adapter.api.ClientRequestBuilder;
+import org.kgrid.adapter.api.ClientRequest;
 import org.kgrid.adapter.api.Executor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -87,7 +87,7 @@ public class ResourceAdapterTest {
         Executor ex = activateDeploymentSpec(singleArtifactDeploymentSpec);
         List<String> artifacts = new ArrayList<>();
         artifacts.add("hello.txt");
-        InputStream inputStream = (InputStream) ex.execute(new ClientRequestBuilder()
+        InputStream inputStream = (InputStream) ex.execute(new ClientRequest.Builder()
                 .body(artifacts)
                 .url(REQUEST_URI_WITH_ARTIFACT)
                 .build()).getBody();
@@ -101,7 +101,7 @@ public class ResourceAdapterTest {
         List<String> artifacts = new ArrayList<>();
         artifacts.add("hello.txt");
         artifacts.add("goodbye.txt");
-        assertEquals(artifacts, ex.execute(new ClientRequestBuilder().url(REQUEST_URI).build()).getBody());
+        assertEquals(artifacts, ex.execute(new ClientRequest.Builder().url(REQUEST_URI).build()).getBody());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ResourceAdapterTest {
                 .thenReturn(stream);
         Executor ex = activateDeploymentSpec(singleArtifactDeploymentSpec);
         String fileContents = new BufferedReader(new InputStreamReader((InputStream) ex.execute(
-                new ClientRequestBuilder()
+                new ClientRequest.Builder()
                         .body("hello.txt")
                         .url(REQUEST_URI_WITH_ARTIFACT)
                         .build()).getBody(),
@@ -128,7 +128,7 @@ public class ResourceAdapterTest {
         Executor ex = activateDeploymentSpec(singleArtifactDeploymentSpec);
         AdapterException adapterException =
                 assertThrows(AdapterException.class, () -> ex.execute(
-                        new ClientRequestBuilder()
+                        new ClientRequest.Builder()
                                 .body("notHere.txt")
                                 .url(URI.create("http://localhost:8080/resource/simple/welcome/notHere.txt?v=1.0"))
                                 .build()));
