@@ -1,9 +1,7 @@
 package org.kgrid.adapter.resource;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.kgrid.adapter.api.ActivationContext;
-import org.kgrid.adapter.api.Adapter;
-import org.kgrid.adapter.api.Executor;
+import org.kgrid.adapter.api.*;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -38,15 +36,24 @@ public class ResourceAdapter implements Adapter {
         }
         return new Executor() {
             @Override
-            public Object execute(Object inputs, String inputMimetype) {
-                if(inputs == null){
-                    return artifacts;
-                }
-                if(artifacts.contains(inputs)) {
-                    return context.getBinary(
-                            URI.create(absoluteLocation + "/" + inputs));
+            public ExecutorResponse execute(ClientRequest request) {
+                String[] endpointPathParts = request.getUrl().getPath().split("/");
+                String[] endpointUriParts = endpointUri.getPath().split("/");
+
+                if (endpointPathParts.length <= endpointUriParts.length) {
+                    return new ExecutorResponse(artifacts, null, request);
                 } else {
-                    throw new AdapterResourceNotFoundException("Requested resource " + inputs + " is not available.");
+                    StringBuilder artifactName = new StringBuilder();
+                    for (int i = endpointUriParts.length; i < endpointPathParts.length; i++) {
+                        artifactName.append("/").append(endpointPathParts[i]);
+                    }
+                    if (artifacts.contains(artifactName.substring(1))) {
+                        return new ExecutorResponse(context.getBinary(
+                                URI.create(absoluteLocation + artifactName.toString())), null, request);
+
+                    } else {
+                        throw new AdapterResourceNotFoundException("Requested resource " + artifactName.substring(1) + " is not available.");
+                    }
                 }
             }
         };
